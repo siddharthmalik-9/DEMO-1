@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Notes Hub</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <h1>Notes Hub</h1>
+    <p>Select a subject to browse downloadable PDF notes.</p>
+  </header>
+
+  <main class="container">
+    <section id="subjects-section" class="card">
+      <h2>Subjects</h2>
+      <ul id="subjects-list" class="list"></ul>
+    </section>
+
+    <section id="notes-section" class="card hidden">
+      <div class="section-title-row">
+        <h2 id="notes-title">Notes</h2>
+        <button id="back-btn" class="secondary-btn">← Back to Subjects</button>
+      </div>
+      <ul id="notes-list" class="list"></ul>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
