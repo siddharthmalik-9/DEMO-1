@@ -1,0 +1,13 @@
+{
+  "Math": [
+    { "title": "Algebra Basics", "file": "subjects/math/algebra-basics.pdf" },
+    { "title": "Geometry Essentials", "file": "subjects/math/geometry-essentials.pdf" }
+  ],
+  "Science": [
+    { "title": "Physics Formulas", "file": "subjects/science/physics-formulas.pdf" },
+    { "title": "Chemistry Quick Notes", "file": "subjects/science/chemistry-quick-notes.pdf" }
+  ],
+  "History": [
+    { "title": "World War II Overview", "file": "subjects/history/world-war-2-overview.pdf" }
+  ]
+}

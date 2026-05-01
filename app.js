@@ -1,33 +1,55 @@
-const notesData = {
-  Math: [
-    { title: "Algebra Basics", file: "subjects/math/algebra-basics.pdf" },
-    { title: "Geometry Essentials", file: "subjects/math/geometry-essentials.pdf" }
-  ],
-  Science: [
-    { title: "Physics Formulas", file: "subjects/science/physics-formulas.pdf" },
-    { title: "Chemistry Quick Notes", file: "subjects/science/chemistry-quick-notes.pdf" }
-  ],
-  History: [
-    { title: "World War II Overview", file: "subjects/history/world-war-2-overview.pdf" }
-  ]
-};
-
 const subjectsSection = document.getElementById("subjects-section");
 const notesSection = document.getElementById("notes-section");
 const subjectsList = document.getElementById("subjects-list");
 const notesList = document.getElementById("notes-list");
 const notesTitle = document.getElementById("notes-title");
 const backBtn = document.getElementById("back-btn");
+const errorBox = document.getElementById("error-box");
+
+let notesData = {};
+
+async function loadNotesData() {
+  try {
+    const response = await fetch("notes.json", { cache: "no-store" });
+
+    if (!response.ok) {
+      throw new Error("Failed to load notes.json");
+    }
+
+    notesData = await response.json();
+    renderSubjects();
+  } catch (error) {
+    showError(
+      "Could not load notes metadata. Make sure you are running a local server and that notes.json exists."
+    );
+    console.error(error);
+  }
+}
+
+function showError(message) {
+  errorBox.textContent = message;
+  errorBox.classList.remove("hidden");
+}
 
 function renderSubjects() {
   subjectsList.innerHTML = "";
+  const subjects = Object.keys(notesData);
 
-  Object.keys(notesData).forEach((subject) => {
+  if (subjects.length === 0) {
+    const empty = document.createElement("li");
+    empty.className = "empty";
+    empty.textContent = "No subjects available yet.";
+    subjectsList.appendChild(empty);
+    return;
+  }
+
+  subjects.forEach((subject) => {
     const item = document.createElement("li");
     const button = document.createElement("button");
+    const count = notesData[subject].length;
 
     button.className = "subject-btn";
-    button.textContent = subject;
+    button.innerHTML = `<span>${subject}</span><span class="badge">${count} notes</span>`;
     button.addEventListener("click", () => renderNotes(subject));
 
     item.appendChild(button);
@@ -57,8 +79,6 @@ function renderNotes(subject) {
       const link = document.createElement("a");
       link.href = note.file;
       link.download = "";
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
 
       const downloadBtn = document.createElement("button");
       downloadBtn.className = "download-btn";
@@ -80,4 +100,4 @@ backBtn.addEventListener("click", () => {
   subjectsSection.classList.remove("hidden");
 });
 
-renderSubjects();
+loadNotesData();
